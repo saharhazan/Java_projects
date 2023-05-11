@@ -71,22 +71,18 @@ public class HangManController{
         final char FIRST_LETTER = 'a';
         final char LAST_LETTER = 'z';
         btns = new Button[SIZE * SIZE];
-        char ch = FIRST_LETTER;
+        char letter = FIRST_LETTER;
         for (int i = 0; i < btns.length; i++) {
-            btns[i] = new Button(ch + "");
+            btns[i] = new Button(String.valueOf(letter));
             btns[i].setPrefSize(grid.getPrefWidth() / SIZE, grid.getPrefHeight() / SIZE);
             grid.add(btns[i], i % SIZE, i / SIZE);
             btns[i].setDisable(false);
-            btns[i].setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    handleButton(event);
-                }
-            });
-            ch++;
-            if (ch == LAST_LETTER + 1) {
-                return;
+            btns[i].setOnAction(event -> handleButton(event));
+            letter++;
+            if (letter > LAST_LETTER) {
+                break;
             }
+            letter++;
         }
     }
 
