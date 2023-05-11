@@ -68,31 +68,29 @@ public class HangManController{
     }
 
     public void restartButtons(){
+        final char FIRST_LETTER = 'a';
+        final char LAST_LETTER = 'z';
         btns = new Button[SIZE * SIZE];
-        char ch = 'a';
+        char letter = FIRST_LETTER;
         for (int i = 0; i < btns.length; i++) {
-            btns[i] = new Button(ch + "");
+            btns[i] = new Button(String.valueOf(letter));
             btns[i].setPrefSize(grid.getPrefWidth() / SIZE, grid.getPrefHeight() / SIZE);
             grid.add(btns[i], i % SIZE, i / SIZE);
             btns[i].setDisable(false);
-            btns[i].setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    handleButton(event);
-                }
-            });
-            ch++;
-            if (ch == 'z' + 1) {
-                return;
+            btns[i].setOnAction(event -> handleButton(event));
+            letter++;
+            if (letter > LAST_LETTER) {
+                break;
             }
+            letter++;
         }
     }
 
     private void handleButton(ActionEvent event) {
         Button currBtn = (Button) event.getSource();
-        String ch = currBtn.getText();
-        System.out.println(ch);  
-        game.checkGuess(ch);
+        String letter = currBtn.getText();
+        System.out.println(letter);
+        game.checkGuess(letter);
         System.out.println(game.getLives());
         labelGuess.setText("" + game.getLives());
         labelWord.setText(game.getCheck());
@@ -145,17 +143,11 @@ public class HangManController{
         }
     }
     public void drawBase(){
-        Line l1 = parts.hangmanParts.get(0);
-        Line l2 = parts.hangmanParts.get(1);
-        Line l3 = parts.hangmanParts.get(2);
-        Line l4 = parts.hangmanParts.get(3);
-        Line l5 = parts.hangmanParts.get(4);
-        gc.strokeLine(l1.getStartX(),l1.getStartY(),l1.getEndX(),l1.getEndY());
-        gc.strokeLine(l2.getStartX(),l2.getStartY(),l2.getEndX(),l2.getEndY());
-        gc.strokeLine(l3.getStartX(),l3.getStartY(),l3.getEndX(),l3.getEndY());
-        gc.strokeLine(l4.getStartX(),l4.getStartY(),l4.getEndX(),l4.getEndY());
-        gc.strokeLine(l5.getStartX(),l5.getStartY(),l5.getEndX(),l5.getEndY());
+        for (Line line : parts.hangmanParts) {
+            gc.strokeLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
+        }
     }
+
     @FXML
     void onPressed(ActionEvent event) {
         game.restart();
