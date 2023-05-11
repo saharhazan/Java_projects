@@ -68,8 +68,10 @@ public class HangManController{
     }
 
     public void restartButtons(){
+        final char FIRST_LETTER = 'a';
+        final char LAST_LETTER = 'z';
         btns = new Button[SIZE * SIZE];
-        char ch = 'a';
+        char ch = FIRST_LETTER;
         for (int i = 0; i < btns.length; i++) {
             btns[i] = new Button(ch + "");
             btns[i].setPrefSize(grid.getPrefWidth() / SIZE, grid.getPrefHeight() / SIZE);
@@ -82,7 +84,7 @@ public class HangManController{
                 }
             });
             ch++;
-            if (ch == 'z' + 1) {
+            if (ch == LAST_LETTER + 1) {
                 return;
             }
         }
